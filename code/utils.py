@@ -30,7 +30,9 @@ def create_sample_matrix(file_names, nr_pixels, nr_exposures):
     """
 
     nr_samples = int(np.ceil(255. / (nr_exposures - 1)))
-    random_sample_indices = np.random.randint(nr_pixels, size=(nr_samples), seed=1290)
+    rng = np.random.default_rng(seed=1290)
+
+    random_sample_indices = rng.integers(low=0, high=nr_pixels, size=nr_samples)
 
     # allocate resulting matrices
     sample_matrix = np.zeros((nr_samples, nr_exposures, 3), dtype=np.uint8)
@@ -181,5 +183,5 @@ def plot_g(g_red, g_green, g_blue):
     plt.plot(g_blue, y, 'b-')
     plt.xlabel('log Exposure X')
     plt.ylabel('Pixel Value Z')
-
+    plt.savefig("/Users/ajdemarinis/Desktop/cs180/ajdema.github.io/Final/media/garage_g_plot.png")
     plt.show()

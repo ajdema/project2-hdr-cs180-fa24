@@ -38,6 +38,10 @@ def main():
             print("Directory does not exist!")
             sys.exit(1)
 
+    # Extract prefix from input directory name
+    input_dir_name = os.path.basename(os.path.normpath(directory))
+    prefix = f"{input_dir_name}_"
+
     # READ IMAGE STACK INFO
     # ===============================
 
@@ -101,7 +105,7 @@ def main():
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", size="5%", pad=0.05)
     plt.colorbar(rad_map_im, cax=cax)
-    plt.imsave(os.path.join(args.out, "hdr_radiance_map_mean.png"), mean_rad_map, cmap='jet')
+    plt.imsave(os.path.join(args.out, f"{prefix}hdr_radiance_map_mean.png"), mean_rad_map, cmap='jet')
 
     rad_map = np.clip(rad_map, 0., 1.)
 
@@ -109,7 +113,7 @@ def main():
     plt.imshow(rad_map)
     plt.axis('off')
     plt.title("HDR Radiance Map")
-    plt.imsave(os.path.join(args.out, "hdr_radiance_map.png"), rad_map)
+    plt.imsave(os.path.join(args.out, f"{prefix}hdr_radiance_map.png"), rad_map)
 
     plt.tight_layout()
     plt.show()
@@ -130,7 +134,7 @@ def main():
     plt.imshow(global_scale)
     plt.axis('off')
     plt.title("Global Scale")
-    cv2.imwrite(os.path.join(args.out, "global_scale.png"),
+    cv2.imwrite(os.path.join(args.out, f"{prefix}global_scale.png"),
                 global_scale[..., ::-1]*255)
 
     # Plot global simple tone mapping
@@ -138,7 +142,7 @@ def main():
     plt.imshow(global_simple)
     plt.axis('off')
     plt.title("Global Simple")
-    cv2.imwrite(os.path.join(args.out, "global_simple.png"),
+    cv2.imwrite(os.path.join(args.out, f"{prefix}global_simple.png"),
                 global_simple[..., ::-1]*255)
 
     # Plot Durand tone mapping
@@ -146,7 +150,7 @@ def main():
     plt.imshow(durand)
     plt.axis('off')
     plt.title("Durand")
-    cv2.imwrite(os.path.join(args.out, "durand.png"),
+    cv2.imwrite(os.path.join(args.out, f"{prefix}durand.png"),
                 durand[..., ::-1]*255)
 
     plt.tight_layout()
